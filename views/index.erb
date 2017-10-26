@@ -1,7 +1,15 @@
-<h1>Välkommen!</h1>
+<aside>
 
-<h2>Kurser: <%= kurser  %></h2>
+<h1>Välj kurs</h1>
+
+<form method="GET" action="/comments/:collectionid/read">
+
+<select>
 
 <% for banan in kurser do%>
 <h3><%= banan[0] %></h3>
 <% end %>
+</select>
+
+
+</aside>
