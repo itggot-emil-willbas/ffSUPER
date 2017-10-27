@@ -4,12 +4,16 @@
 
 <form method="GET" action="/comments/:collectionid/read">
 
-<select>
+<select name="collection-select">
 
 <% for banan in kurser do%>
-<h3><%= banan[0] %></h3>
+
+<option value=<%= i %>><%= banan[0] %></option>
+<% i += 1 %>
 <% end %>
 </select>
+
+</form>
 
 
 </aside>
