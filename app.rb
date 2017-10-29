@@ -30,6 +30,17 @@ get('/collections/:courseid') do
     resultbanan = db.execute("SELECT id,collection_name FROM collections WHERE course_id = ?",course_id)
     print "Result (course_id):"
     p resultbanan
+    options = ""
+    for coll in resultbanan do
+        options << "<option value=" + coll[0].to_s + ">" + coll[1].to_s + "</option>"
+    end
+
+    options
+    #resultbanan = resultbanan[1][1]
+    #meddelande = "<h1>Lite h1-text som skickas</h1><h2>"  + resultbanan + "</h2>"
+    #print "Meddelande:"
+    #p meddelande
+   # meddelande.to_s
 
     ##############HUR SKICKA EN ARRAY TILL index.erb??
     #erb(:index, locals:{results:resultbanan})

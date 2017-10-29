@@ -29,10 +29,11 @@
 <script type="text/javascript">
 $(document).ready(function () {
     $("#course_select").change(function () {
-
-        $.get("/collections/1", function(data, status){
+        var val = $(this).val();
+        $.get("/collections/" + val, function(data, status){
             if (status === "success"){
-            alert("Data: " + data + "\nStatus: " + status);
+            $("#collection_select").html(data);            
+            //alert("Data: " + data + "\nStatus: " + status);
             }else{
                 alert("Nåt galet!");
             }
