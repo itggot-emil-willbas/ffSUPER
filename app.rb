@@ -31,22 +31,42 @@ get('/collections/:courseid') do
     db = SQLite3::Database.new('./db/fast_forward_db.sqlite')
     array = db.execute("SELECT id,collection_name FROM collections WHERE course_id = ?",course_id)
     object = {object_first_key:array}
+   # object2 = object.to_json
+    #print "::OBJECT2 =" + object2
 return object.to_json  
 end
 
-get('/hello') do
+get('/hello/:data/?') do
+
+# 1. Skicka STRÄNG med post eller get (en lånh jävel)
+# Sträng i form av {"hello": "goodbye", "Hej" : "Hejdå"}
+# 2. Ta emot strängen som en parameter i URL. data = params[:data]
+# 3. Gör den till en hash (rubys dict-obj?) och parsa genom att
+# my_hash = JSON.parse(data)
+# puts my_hash["hello"] => "goodbye"
+
+#1
+#string =  '{"hello": "goodbye", "Hej" : "Hejdå"}'
+string = params[:data].to_s
+obj = JSON.parse(string)
+#puts my_hash["hello"]
 
     #Hur skicka en hash ifrån jquery? Posta går, men bara JSON-object...
     
-    obj = {"collection_name" => "Feedback",
-        "course_id" => "1",
-        "comments" => [["Tänk på ditten och datten HTML","red","konstr"],["Bra design","green","pos"]] }
+    # obj = {"collection_name" => "Feedback",
+    #     "course_id" => "1",
+    #     "comments" => [["Tänk på ditten och datten HTML","red","konstr"],["Bra design","green","pos"]] }
 
-    #i comments: lägg till text, color 
-    #i collections: lägg till collection_name, course_id
-   #array_array = [] 
-   #array = [text, color, collection_id, collection_name, course_id]
-   #arr = ["Tänk på ditten och datten HTML","red","Avstämning HTML","1"]
+        # obj = '{collection_name : "Feedback",
+        # course_id : "1",
+        # comments : [["Tänk på ditten och datten HTML","red","konstr"],["Bra design","green","pos"]] }'
+
+        # obj_parsed = obj.to_json
+
+        # p "::obj_parsed =" + obj_parsed
+        # p "::obj =" + obj
+        # p "::obj_parsed.collection_name =" + obj_parsed["collection_name"]
+        # p "::obj.collection_name =" + obj["collection_name"]
    #Debug: What if collection_name copy
   
    db = SQLite3::Database.new('./db/fast_forward_db.sqlite')
