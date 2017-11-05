@@ -35,9 +35,31 @@ return object.to_json
 end
 
 get('/hello') do
-    
 
-    '42'
+    #Hur skicka en hash ifrån jquery? Posta går, men bara JSON-object...
+    
+    obj = {"collection_name" => "Feedback",
+        "course_id" => "1",
+        "comments" => [["Tänk på ditten och datten HTML","red","konstr"],["Bra design","green","pos"]] }
+
+    #i comments: lägg till text, color 
+    #i collections: lägg till collection_name, course_id
+   #array_array = [] 
+   #array = [text, color, collection_id, collection_name, course_id]
+   #arr = ["Tänk på ditten och datten HTML","red","Avstämning HTML","1"]
+   #Debug: What if collection_name copy
+  
+   db = SQLite3::Database.new('./db/fast_forward_db.sqlite')
+    
+   db.execute("INSERT INTO collections (collection_name, course_id) VALUES (?,?)",obj["collection_name"],obj["course_id"])
+   #Hämta id för nyligen tillagda collection här (blir "collection_id" nedan)
+   collection_id = db.execute("SELECT id FROM collections WHERE collection_name = ?",obj["collection_name"])
+
+   for comment in obj["comments"] do
+        db.execute("INSERT INTO comments (text, color, collection_id) VALUES (?,?,?)",comment[0],comment[1],collection_id)
+   end
+
+   print "Tillagd collection med #{obj}"
 end
 
     
