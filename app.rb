@@ -1,6 +1,7 @@
 require 'sinatra'
 require 'sqlite3'
 require 'json'
+require 'byebug'
 
 get('/') do
 
@@ -36,8 +37,12 @@ get('/collections/:courseid') do
 return object.to_json  
 end
 
-get('/hello/:data/?') do
 
+
+
+
+post('/hello') do
+    #byebug
 # 1. Skicka STRÄNG med post eller get (en lånh jävel)
 # Sträng i form av {"hello": "goodbye", "Hej" : "Hejdå"}
 # 2. Ta emot strängen som en parameter i URL. data = params[:data]
@@ -47,8 +52,17 @@ get('/hello/:data/?') do
 
 #1
 #string =  '{"hello": "goodbye", "Hej" : "Hejdå"}'
-string = params[:data].to_s
-obj = JSON.parse(string)
+
+collection_testbyebug = params["collection_name"]
+p "sdfdsfdsfdsfdsfdsfsdf"
+p collection_testbyebug
+
+
+
+
+
+#string = params[:data].to_s
+#obj = JSON.parse(string)
 #puts my_hash["hello"]
 
     #Hur skicka en hash ifrån jquery? Posta går, men bara JSON-object...
@@ -62,7 +76,7 @@ obj = JSON.parse(string)
         # comments : [["Tänk på ditten och datten HTML","red","konstr"],["Bra design","green","pos"]] }'
 
         # obj_parsed = obj.to_json
-
+byebug
         # p "::obj_parsed =" + obj_parsed
         # p "::obj =" + obj
         # p "::obj_parsed.collection_name =" + obj_parsed["collection_name"]
@@ -71,15 +85,20 @@ obj = JSON.parse(string)
   
    db = SQLite3::Database.new('./db/fast_forward_db.sqlite')
     
-   db.execute("INSERT INTO collections (collection_name, course_id) VALUES (?,?)",obj["collection_name"],obj["course_id"])
-   #Hämta id för nyligen tillagda collection här (blir "collection_id" nedan)
-   collection_id = db.execute("SELECT id FROM collections WHERE collection_name = ?",obj["collection_name"])
+    collection_name = params["collection_name"]
+    course_id = params["course_id"].to_i
 
-   for comment in obj["comments"] do
+   db.execute("INSERT INTO collections (collection_name, course_id) VALUES (?,?)",collection_name,course_id)
+   #Hämta id för nyligen tillagda collection här (blir "collection_id" nedan)
+   collection_id = db.execute("SELECT id FROM collections WHERE collection_name = ?",collection_name)
+
+    comments = params["comments"]
+
+   for comment in comments do
         db.execute("INSERT INTO comments (text, color, collection_id) VALUES (?,?,?)",comment[0],comment[1],collection_id)
    end
 
-   print "Tillagd collection med #{obj}"
+   print "Tillagd collection med #{comments}"
 end
 
     
