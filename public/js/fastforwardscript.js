@@ -45,8 +45,8 @@ $(document).ready(function () {
 $("#clicker").click(function(){
     $.post("/hello",
     {
-        collection_name : "Feedback9",
-        course_id : "1",
+        collection_name : "Feedback12",
+        course_id : 1,
         comments : [["Ttänk på ditten och datten HTML","red","konstr"],["Btra design","green","pos"]] 
     },
     function(data,status){

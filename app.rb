@@ -58,47 +58,28 @@ p "sdfdsfdsfdsfdsfdsfsdf"
 p collection_testbyebug
 
 
-
-
-
-#string = params[:data].to_s
-#obj = JSON.parse(string)
-#puts my_hash["hello"]
-
-    #Hur skicka en hash ifrån jquery? Posta går, men bara JSON-object...
-    
-    # obj = {"collection_name" => "Feedback",
-    #     "course_id" => "1",
-    #     "comments" => [["Tänk på ditten och datten HTML","red","konstr"],["Bra design","green","pos"]] }
-
-        # obj = '{collection_name : "Feedback",
-        # course_id : "1",
-        # comments : [["Tänk på ditten och datten HTML","red","konstr"],["Bra design","green","pos"]] }'
-
-        # obj_parsed = obj.to_json
 byebug
-        # p "::obj_parsed =" + obj_parsed
-        # p "::obj =" + obj
-        # p "::obj_parsed.collection_name =" + obj_parsed["collection_name"]
-        # p "::obj.collection_name =" + obj["collection_name"]
+      
    #Debug: What if collection_name copy
   
    db = SQLite3::Database.new('./db/fast_forward_db.sqlite')
     
-    collection_name = params["collection_name"]
+    collection_name = params["collection_name"] #Tänk på att ha unikt collection_name!
     course_id = params["course_id"].to_i
 
    db.execute("INSERT INTO collections (collection_name, course_id) VALUES (?,?)",collection_name,course_id)
    #Hämta id för nyligen tillagda collection här (blir "collection_id" nedan)
    collection_id = db.execute("SELECT id FROM collections WHERE collection_name = ?",collection_name)
 
-    comments = params["comments"]
+    comments = params["comments"] #Tänk på att ha unikt collection_name!
 
-   for comment in comments do
-        db.execute("INSERT INTO comments (text, color, collection_id) VALUES (?,?,?)",comment[0],comment[1],collection_id)
+   i = 0
+
+   while i < comments.length do
+        db.execute("INSERT INTO comments (text, color, collection_id) VALUES (?,?,?)",comments["#{i}"][0],comments["#{i}"][1],collection_id)
+        i += 1
    end
-
-   print "Tillagd collection med #{comments}"
+   
 end
 
     
