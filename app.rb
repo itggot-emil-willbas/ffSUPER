@@ -20,7 +20,7 @@ end
 get('/comments/?') do
     collection_id = params["collection-select"]
     db = SQLite3::Database.new('./db/fast_forward_db.sqlite')
-    result = db.execute("SELECT text FROM commments WHERE collection_id IN (SELECT id FROM collections WHERE id = ?)",collection_id)
+    result = db.execute("SELECT text FROM comments WHERE collection_id IN (SELECT id FROM collections WHERE id = ?)",collection_id)
     print "RESULT::"
     p result
     erb(:comments, locals:{comments:result})
@@ -58,7 +58,7 @@ p "sdfdsfdsfdsfdsfdsfsdf"
 p collection_testbyebug
 
 
-byebug
+#byebug
       
    #Debug: What if collection_name copy
   
